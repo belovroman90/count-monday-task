@@ -3,10 +3,12 @@ import s from './Count.module.css';
 import {Button} from "../Button/Button";
 
 type CountPropsType = {
+    viewSet: boolean
     numb: number
     maxVal: number
     startVal: number
     disSetButton: boolean
+    setViewSet: (val: boolean) => void
     incButton: () => void
     resetButton: () => void
 }
@@ -19,6 +21,10 @@ export const Count: FC<CountPropsType> = (props) => {
 
     function onClickResButton() {
         props.resetButton();
+    }
+
+    function onClickSetButton() {
+        props.setViewSet(true);
     }
 
     const disIncButton = props.numb >= props.maxVal || !props.disSetButton;
@@ -47,6 +53,7 @@ export const Count: FC<CountPropsType> = (props) => {
 
     const classCount = countClass();
 
+
     return (
         <div>
             <div className={s.container}>
@@ -64,6 +71,10 @@ export const Count: FC<CountPropsType> = (props) => {
                             disabled={props.numb === 0}
                             className={classReset}
                     >reset</Button>
+                    <Button
+                        className={s.button}
+                        onClick={onClickSetButton}
+                    >set</Button>
                 </div>
             </div>
         </div>

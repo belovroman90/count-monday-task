@@ -55,6 +55,23 @@
     align-items: center;
 }
 
+.button {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 4px 15px 4px 15px;
+    border-radius: 8px;
+    color: #2A2C36;
+    background-color: #6EE4FF;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.button:active {
+    color: #6EE4FF;
+    background-color: #252B36;
+}
+
 .incButton {
     font-size: 2rem;
     font-weight: bold;
