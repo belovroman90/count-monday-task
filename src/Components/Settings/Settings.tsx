@@ -11,6 +11,7 @@ type SettingsPropsType = {
     setMaxVal: (val: number) => void
     setStartVal: (val: number) => void
     setDisSetButton: (val: boolean) => void
+    loadStorageValue: (nameStorage: string) => number
 }
 
 export const Settings: FC<SettingsPropsType> = (props) => {
@@ -31,8 +32,8 @@ export const Settings: FC<SettingsPropsType> = (props) => {
         props.setNumb(props.startVal);
         props.setDisSetButton(true);
         props.setViewSet(false);
+        props.setNumb(props.loadStorageValue('countValue'))
     }
-
 
     const classIncorrectMaxVal = props.maxVal < 0 || props.maxVal === props.startVal ? s.incorrect : '';
     const classIncorrectStVal = props.startVal < 0 || props.startVal === props.maxVal ? s.incorrect : '';
