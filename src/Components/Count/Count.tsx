@@ -15,8 +15,6 @@ type CountPropsType = {
 
 export const Count: FC<CountPropsType> = (props) => {
 
-    console.log('Count render')
-
     const dispatch = useDispatch()
 
     function onClickIncButton() {
