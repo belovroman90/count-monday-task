@@ -1,57 +1,58 @@
-import React, {FC, useEffect, useState} from 'react';
-import s from './Count.module.css';
-import {Button} from "../Button/Button";
+import React, {FC} from 'react'
+import s from './Count.module.css'
+import {Button} from "../Button/Button"
+import {useDispatch} from "react-redux";
+import {SetViewSettAC} from "../../store/app-reducer";
 
 type CountPropsType = {
-    viewSet: boolean
     numb: number
     maxVal: number
     startVal: number
     disSetButton: boolean
-    setViewSet: (val: boolean) => void
     incButton: () => void
     resetButton: () => void
 }
 
 export const Count: FC<CountPropsType> = (props) => {
 
+    console.log('Count render')
+
+    const dispatch = useDispatch()
+
     function onClickIncButton() {
-        props.incButton();
+        props.incButton()
     }
 
     function onClickResButton() {
-        props.resetButton();
+        props.resetButton()
     }
 
     function onClickSetButton() {
-        props.setViewSet(true);
+        dispatch(SetViewSettAC(true))
     }
 
-    const disIncButton = props.numb >= props.maxVal || !props.disSetButton;
-    const disResetButton = props.numb === props.startVal || !props.disSetButton;
+    const disIncButton = props.numb >= props.maxVal || !props.disSetButton
+    const disResetButton = props.numb === props.startVal || !props.disSetButton
 
-    const classInc = disIncButton ? s.disabled : s.incButton;
-    const classReset = disResetButton ? s.disabled : s.resetButton;
+    const classInc = disIncButton ? s.disabled : s.incButton
+    const classReset = disResetButton ? s.disabled : s.resetButton
 
-    const countStr = props.maxVal < 0 || props.startVal < 0 || props.maxVal === props.startVal ? 'Incorrect value!'
-        : !props.disSetButton ? 'enter value and press "set"' : props.numb;
+    const countStr = props.maxVal < 0 || props.startVal < 0 ? 'Incorrect value!'
+        : props.maxVal === props.startVal || !props.disSetButton ? 'Press "set" and enter value'
+            : props.numb
 
     function countClass() {
-        let classCount;
+        let classCount
         if (props.numb === props.maxVal) {
-            classCount = s.countRed;
+            classCount = s.countRed
         }
-        if (props.maxVal < 0 || props.startVal < 0 || props.maxVal === props.startVal) {
-            classCount = s.incorrectValCount;
+        if (props.maxVal < 0 || props.startVal < 0 || !props.disSetButton || props.maxVal === props.startVal) {
+            classCount = s.incorrectValCount
         }
-        // if(!props.disSetButton) classCount = s.enterValue;
-        if (countStr === 'enter value and press "set"') {
-            classCount = s.enterValue;
-        }
-        return classCount;
+        return classCount
     }
 
-    const classCount = countClass();
+    const classCount = countClass()
 
 
     return (

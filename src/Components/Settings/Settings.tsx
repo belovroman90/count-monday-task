@@ -1,12 +1,13 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 import s from './Settings.module.css';
 import {Button} from "../Button/Button";
+import {useDispatch} from "react-redux";
+import {SetViewSettAC} from "../../store/app-reducer";
 
 type SettingsPropsType = {
     maxVal: number
     startVal: number
     disSetButton: boolean
-    setViewSet: (val: boolean) => void
     setNumb: (val: number) => void
     setMaxVal: (val: number) => void
     setStartVal: (val: number) => void
@@ -16,34 +17,37 @@ type SettingsPropsType = {
 
 export const Settings: FC<SettingsPropsType> = (props) => {
 
+    const dispatch = useDispatch()
+
     function onChangeMaxVal(e: ChangeEvent<HTMLInputElement>) {
-        props.setDisSetButton(false);
-        const newVal = +e.currentTarget.value;
-        props.setMaxVal(newVal > props.startVal ? newVal : props.startVal);
+        props.setDisSetButton(false)
+        const newVal = +e.currentTarget.value
+        props.setMaxVal(newVal > props.startVal ? newVal : props.startVal)
     }
 
     function onChangeStartVal(e: ChangeEvent<HTMLInputElement>) {
-        props.setDisSetButton(false);
-        const newVal = +e.currentTarget.value;
-        props.setStartVal(newVal < props.maxVal ? newVal : props.maxVal);
+        props.setDisSetButton(false)
+        const newVal = +e.currentTarget.value
+        props.setStartVal(newVal < props.maxVal ? newVal : props.maxVal)
     }
 
     function onClickSetButton() {
-        props.setNumb(props.startVal);
-        props.setDisSetButton(true);
-        props.setViewSet(false);
+        props.setNumb(props.startVal)
+        props.setDisSetButton(true)
+        dispatch(SetViewSettAC(false))
         props.setNumb(props.loadStorageValue('countValue'))
     }
 
-    const classIncorrectMaxVal = props.maxVal < 0 || props.maxVal === props.startVal ? s.incorrect : '';
-    const classIncorrectStVal = props.startVal < 0 || props.startVal === props.maxVal ? s.incorrect : '';
+    const classIncorrectMaxVal = props.maxVal < 0 || props.maxVal === props.startVal ? s.incorrect : ''
+    const classIncorrectStVal = props.startVal < 0 || props.startVal === props.maxVal ? s.incorrect : ''
 
-    const disabledSetButton = props.maxVal < 0 || props.startVal < 0 || props.maxVal === props.startVal;
-    const classDisSetButton = disabledSetButton ? s.disabled : s.button;
+    const disabledSetButton = props.maxVal < 0 || props.startVal < 0 || props.maxVal === props.startVal
+    const classDisSetButton = disabledSetButton ? s.disabled : s.button
 
     return (
         <div className={s.container}>
             <div className={s.values}>
+
                 <div className={s.labelInput}>
                     <label htmlFor={'maxVal'}>max value: </label>
                     <input type="number" id={'maxVal'}
@@ -52,6 +56,7 @@ export const Settings: FC<SettingsPropsType> = (props) => {
                            className={classIncorrectMaxVal}
                     />
                 </div>
+
                 <div className={s.labelInput}>
                     <label htmlFor={'startVal'}> start value: </label>
                     <input type="number" id={'startVal'}
