@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/count-monday-task/static/css/main.f9a00a51.css",
-    "main.js": "/count-monday-task/static/js/main.4e63c68e.js",
+    "main.js": "/count-monday-task/static/js/main.80546ddf.js",
     "static/js/787.fe5040cf.chunk.js": "/count-monday-task/static/js/787.fe5040cf.chunk.js",
     "index.html": "/count-monday-task/index.html",
     "main.f9a00a51.css.map": "/count-monday-task/static/css/main.f9a00a51.css.map",
-    "main.4e63c68e.js.map": "/count-monday-task/static/js/main.4e63c68e.js.map",
+    "main.80546ddf.js.map": "/count-monday-task/static/js/main.80546ddf.js.map",
     "787.fe5040cf.chunk.js.map": "/count-monday-task/static/js/787.fe5040cf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f9a00a51.css",
-    "static/js/main.4e63c68e.js"
+    "static/js/main.80546ddf.js"
   ]
 }
