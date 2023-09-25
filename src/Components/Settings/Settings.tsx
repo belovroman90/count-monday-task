@@ -1,47 +1,40 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Settings.module.css';
 import {Button} from "../Button/Button";
-import {useDispatch} from "react-redux";
-import {SetViewSettAC} from "../../store/app-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    CountStateType,
+    OnClickSetButtonAC,
+    SetMaxValueAC,
+    SetStartValueAC,
+    ViewSettAC
+} from "../../store/app-reducer";
+import {AppRootStateType} from "../../store/store";
 
-type SettingsPropsType = {
-    maxVal: number
-    startVal: number
-    disSetButton: boolean
-    setNumb: (val: number) => void
-    setMaxVal: (val: number) => void
-    setStartVal: (val: number) => void
-    setDisSetButton: (val: boolean) => void
-    loadStorageValue: (nameStorage: string) => number
-}
-
-export const Settings: FC<SettingsPropsType> = (props) => {
+export const Settings = () => {
 
     const dispatch = useDispatch()
+    const state = useSelector<AppRootStateType, CountStateType>(state => state.countState)
 
     function onChangeMaxVal(e: ChangeEvent<HTMLInputElement>) {
-        props.setDisSetButton(false)
         const newVal = +e.currentTarget.value
-        props.setMaxVal(newVal > props.startVal ? newVal : props.startVal)
+        dispatch(SetMaxValueAC(newVal > state.startValue ? newVal : state.startValue))
     }
 
     function onChangeStartVal(e: ChangeEvent<HTMLInputElement>) {
-        props.setDisSetButton(false)
         const newVal = +e.currentTarget.value
-        props.setStartVal(newVal < props.maxVal ? newVal : props.maxVal)
+        dispatch(SetStartValueAC(newVal < state.maxValue ? newVal : state.maxValue))
     }
 
     function onClickSetButton() {
-        props.setNumb(props.startVal)
-        props.setDisSetButton(true)
-        dispatch(SetViewSettAC(false))
-        props.setNumb(props.loadStorageValue('countValue'))
+        dispatch(OnClickSetButtonAC(state.startValue, state.maxValue))
+        dispatch(ViewSettAC(false))
     }
 
-    const classIncorrectMaxVal = props.maxVal < 0 || props.maxVal === props.startVal ? s.incorrect : ''
-    const classIncorrectStVal = props.startVal < 0 || props.startVal === props.maxVal ? s.incorrect : ''
+    const classIncorrectMaxVal = state.maxValue < 0 || state.maxValue === state.startValue ? s.incorrect : ''
+    const classIncorrectStVal = state.startValue < 0 || state.startValue === state.maxValue ? s.incorrect : ''
 
-    const disabledSetButton = props.maxVal < 0 || props.startVal < 0 || props.maxVal === props.startVal
+    const disabledSetButton = state.maxValue < 0 || state.startValue < 0 || state.maxValue === state.startValue
     const classDisSetButton = disabledSetButton ? s.disabled : s.button
 
     return (
@@ -51,7 +44,7 @@ export const Settings: FC<SettingsPropsType> = (props) => {
                 <div className={s.labelInput}>
                     <label htmlFor={'maxVal'}>max value: </label>
                     <input type="number" id={'maxVal'}
-                           value={props.maxVal}
+                           value={state.maxValue}
                            onChange={onChangeMaxVal}
                            className={classIncorrectMaxVal}
                     />
@@ -60,17 +53,17 @@ export const Settings: FC<SettingsPropsType> = (props) => {
                 <div className={s.labelInput}>
                     <label htmlFor={'startVal'}> start value: </label>
                     <input type="number" id={'startVal'}
-                           value={props.startVal}
+                           value={state.startValue}
                            onChange={onChangeStartVal}
                            className={classIncorrectStVal}
                     />
                 </div>
             </div>
+
             <div className={s.buttonContainer}>
                 <Button
                     className={classDisSetButton}
                     onClick={onClickSetButton}
-                    disabled={disabledSetButton}
                 >set</Button>
             </div>
         </div>

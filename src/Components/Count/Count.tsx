@@ -1,50 +1,44 @@
-import React, {FC} from 'react'
+import React from 'react'
 import s from './Count.module.css'
 import {Button} from "../Button/Button"
-import {useDispatch} from "react-redux";
-import {SetViewSettAC} from "../../store/app-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {CountStateType, IncrementValueAC, ResetValueAC, ViewSettAC} from "../../store/app-reducer";
+import {AppRootStateType} from "../../store/store";
 
-type CountPropsType = {
-    numb: number
-    maxVal: number
-    startVal: number
-    disSetButton: boolean
-    incButton: () => void
-    resetButton: () => void
-}
+export const Count = () => {
 
-export const Count: FC<CountPropsType> = (props) => {
-
+    const state = useSelector<AppRootStateType, CountStateType>(state => state.countState)
     const dispatch = useDispatch()
 
     function onClickIncButton() {
-        props.incButton()
+        dispatch(IncrementValueAC())
     }
 
     function onClickResButton() {
-        props.resetButton()
+        dispatch(ResetValueAC())
     }
 
-    function onClickSetButton() {
-        dispatch(SetViewSettAC(true))
+    function onClickSettButton() {
+        dispatch(ViewSettAC(true))
     }
 
-    const disIncButton = props.numb >= props.maxVal || !props.disSetButton
-    const disResetButton = props.numb === props.startVal || !props.disSetButton
+    const disIncButton = state.value >= state.maxValue
+    const disResetButton = state.value === state.startValue
 
     const classInc = disIncButton ? s.disabled : s.incButton
     const classReset = disResetButton ? s.disabled : s.resetButton
 
-    const countStr = props.maxVal < 0 || props.startVal < 0 ? 'Incorrect value!'
-        : props.maxVal === props.startVal || !props.disSetButton ? 'Press "set" and enter value'
-            : props.numb
+    const countStr = state.maxValue < 0 || state.startValue < 0 ? 'Incorrect value!'
+        : state.maxValue === state.startValue
+            ? 'Press "sett" and enter value' : state.value
 
     function countClass() {
         let classCount
-        if (props.numb === props.maxVal) {
+        if (state.value === state.maxValue) {
             classCount = s.countRed
         }
-        if (props.maxVal < 0 || props.startVal < 0 || !props.disSetButton || props.maxVal === props.startVal) {
+        if (state.maxValue < 0 || state.startValue < 0
+            || state.maxValue === state.startValue) {
             classCount = s.incorrectValCount
         }
         return classCount
@@ -66,14 +60,15 @@ export const Count: FC<CountPropsType> = (props) => {
                             disabled={disIncButton}
                             className={classInc}
                     >inc</Button>
-                    <Button onClick={onClickResButton}
-                            disabled={props.numb === 0}
-                            className={classReset}
+                    <Button
+                        onClick={onClickResButton}
+                        disabled={state.value === 0}
+                        className={classReset}
                     >reset</Button>
                     <Button
                         className={s.button}
-                        onClick={onClickSetButton}
-                    >set</Button>
+                        onClick={onClickSettButton}
+                    >sett</Button>
                 </div>
             </div>
         </div>
