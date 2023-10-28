@@ -1,34 +1,34 @@
 import React, {ChangeEvent} from 'react';
 import s from './Settings.module.css';
 import {Button} from "../Button/Button";
-import {useDispatch, useSelector} from "react-redux";
 import {
     CountStateType,
-    OnClickSetButtonAC,
-    SetMaxValueAC,
-    SetStartValueAC,
-    ViewSettAC
+    onClickSetButtonAC,
+    setMaxValueAC,
+    setStartValueAC,
+    viewSettAC
 } from "../../store/app-reducer";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
 
 export const Settings = () => {
 
-    const dispatch = useDispatch()
     const state = useSelector<AppRootStateType, CountStateType>(state => state.countState)
+    const dispatch = useDispatch()
 
     function onChangeMaxVal(e: ChangeEvent<HTMLInputElement>) {
         const newVal = +e.currentTarget.value
-        dispatch(SetMaxValueAC(newVal > state.startValue ? newVal : state.startValue))
+        dispatch(setMaxValueAC(newVal > state.startValue ? newVal : state.startValue))
     }
 
     function onChangeStartVal(e: ChangeEvent<HTMLInputElement>) {
         const newVal = +e.currentTarget.value
-        dispatch(SetStartValueAC(newVal < state.maxValue ? newVal : state.maxValue))
+        dispatch(setStartValueAC(newVal < state.maxValue ? newVal : state.maxValue))
     }
 
     function onClickSetButton() {
-        dispatch(OnClickSetButtonAC(state.startValue, state.maxValue))
-        dispatch(ViewSettAC(false))
+        dispatch(onClickSetButtonAC(state.startValue, state.maxValue))
+        dispatch(viewSettAC(false))
     }
 
     const classIncorrectMaxVal = state.maxValue < 0 || state.maxValue === state.startValue ? s.incorrect : ''

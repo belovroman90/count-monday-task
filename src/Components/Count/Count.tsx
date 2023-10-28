@@ -1,8 +1,13 @@
 import React from 'react'
 import s from './Count.module.css'
 import {Button} from "../Button/Button"
+import {
+    CountStateType,
+    incrementValueAC,
+    resetValueAC,
+    viewSettAC,
+} from "../../store/app-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {CountStateType, IncrementValueAC, ResetValueAC, ViewSettAC} from "../../store/app-reducer";
 import {AppRootStateType} from "../../store/store";
 
 export const Count = () => {
@@ -11,15 +16,15 @@ export const Count = () => {
     const dispatch = useDispatch()
 
     function onClickIncButton() {
-        dispatch(IncrementValueAC())
+        dispatch(incrementValueAC())
     }
 
     function onClickResButton() {
-        dispatch(ResetValueAC())
+        dispatch(resetValueAC())
     }
 
     function onClickSettButton() {
-        dispatch(ViewSettAC(true))
+        dispatch(viewSettAC(true))
     }
 
     const disIncButton = state.value >= state.maxValue
