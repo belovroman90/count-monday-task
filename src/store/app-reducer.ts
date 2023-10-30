@@ -5,14 +5,10 @@ const SET_MAX_VALUE = 'SET-MAX-VALUE'
 const SET_START_VALUE = 'SET-START-VALUE'
 const ONCLICK_SET_BUTTON = 'ONCLICK-SET-BUTTON'
 
-const localStorageValue = localStorage.getItem('countValue')
-const localStorageStartValue = localStorage.getItem('startValue')
-const localStorageMaxValue = localStorage.getItem('maxValue')
-
 const initialState = {
-    value: localStorageValue ? JSON.parse(localStorageValue) : 0,
-    maxValue: localStorageMaxValue ? JSON.parse(localStorageMaxValue) : 0,
-    startValue: localStorageStartValue ? JSON.parse(localStorageStartValue) : 0,
+    value: 0,
+    maxValue: 0,
+    startValue: 0,
     viewSett: false
 }
 
